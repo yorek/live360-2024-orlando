@@ -17,14 +17,27 @@ namespace Azure.SQLDB.Samples
                 'user_sname': user_name(),
                 'suser_name': suser_name(),
                 'suser_sname': suser_sname()
-                ) as userData
+            ) as userData
         ";
 
-        private readonly string _connectionString = "Server=tcp:dmmssqlsrv.database.windows.net,1433;Initial Catalog=lab;Authentication=Active Directory Default;";
- 
-        [Function("SimpleAPI")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous , "get", "post")] HttpRequest req)
+        private readonly string? _connectionString = Environment.GetEnvironmentVariable("MSSQL");
+
+        private readonly ILogger<SimpleAPI> _logger;
+
+        public SimpleAPI(ILogger<SimpleAPI> logger)
         {
+            _logger = logger;
+        }
+        [Function("SimpleAPI")]
+        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        {
+            _logger.LogInformation("Querying database...");
+
+            if (_connectionString is null)
+            {
+                return new BadRequestObjectResult("Please set the 'MSSQL' environment variable to a valid connection string.");
+            }
+
             using SqlConnection conn = new SqlConnection(_connectionString);
             var result = JsonDocument.Parse(conn.QueryFirst<string>(_sql));
             return new OkObjectResult(result);

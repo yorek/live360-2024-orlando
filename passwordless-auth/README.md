@@ -1,0 +1,1 @@
+Server=dmmssqlsrv.database.windows.net,1433;Initial Catalog=lab;Authentication=Active Directory Managed Identity;User Id=06ab73c4-6ba9-4c59-8277-e10f522dcc12;Connection Timeout=30;
