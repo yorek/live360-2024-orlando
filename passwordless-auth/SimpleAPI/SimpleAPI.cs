@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Text.Json;
 using Dapper;
+using System.ComponentModel;
 
 namespace Azure.SQLDB.Samples
 {
-    public class SimpleAPI
+    public class SimpleAPI(ILogger<SimpleAPI> logger)
     {
         private readonly string _sql = @"           
             select json_object(
@@ -22,17 +23,11 @@ namespace Azure.SQLDB.Samples
 
         private readonly string? _connectionString = Environment.GetEnvironmentVariable("MSSQL");
 
-        private readonly ILogger<SimpleAPI> _logger;
+        private readonly ILogger<SimpleAPI> _logger = logger;
 
-        public SimpleAPI(ILogger<SimpleAPI> logger)
+        [Function("WhoAmI")]
+        public IActionResult RunSimpleAPI([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "who-am-i")] HttpRequest req)
         {
-            _logger = logger;
-        }
-        [Function("SimpleAPI")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
-        {
-            _logger.LogInformation("Querying database...");
-
             if (_connectionString is null)
             {
                 return new BadRequestObjectResult("Please set the 'MSSQL' environment variable to a valid connection string.");
@@ -41,6 +36,14 @@ namespace Azure.SQLDB.Samples
             using SqlConnection conn = new SqlConnection(_connectionString);
             var result = JsonDocument.Parse(conn.QueryFirst<string>(_sql));
             return new OkObjectResult(result);
+        }
+
+        [Function("Test")]
+        public IActionResult RunTest([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "test")] HttpRequest req)
+        {
+            _logger.LogInformation("Test API...");
+          
+            return new OkObjectResult(new { message = "Test API" });
         }
     }
 }

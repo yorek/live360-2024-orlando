@@ -270,3 +270,4 @@ __pycache__/
 *.pyc
 .azure
 .vscode/
+.env

@@ -28,7 +28,7 @@ module api '../core/host/functions-flexconsumption.bicep' = {
     appSettings: union(appSettings,
       {
         AzureWebJobsStorage__clientId : identityClientId
-        APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
+        APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity        
       })
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId

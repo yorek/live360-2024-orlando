@@ -1,1 +1,23 @@
-Server=dmmssqlsrv.database.windows.net,1433;Initial Catalog=lab;Authentication=Active Directory Managed Identity;User Id=06ab73c4-6ba9-4c59-8277-e10f522dcc12;Connection Timeout=30;
+azd env new
+
+azd env set AZURE_SQL_SERVER dmmssqlsrv.database.windows.net
+
+azd env set AZURE_SQL_DB lab   
+
+azd up
+
+--
+
+azd env get-value AZURE_USER_ASSIGNED_IDENTITY_NAME
+
+--
+
+create user [id-api-oa2kevqh5u5rk] from external provider;
+go
+
+alter role db_datareader add member [id-api-oa2kevqh5u5rk];
+go
+
+
+---
+

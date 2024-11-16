@@ -25,6 +25,8 @@ param storageAccountName string = ''
 param vNetName string = ''
 param disableLocalAuth bool = true
 param resourceOwner string = ''
+param azureSqlServer string = ''
+param azureSqlDatabase string = ''
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -81,6 +83,7 @@ module api './app/api.bicep' = {
     identityId: apiUserAssignedIdentity.outputs.identityId
     identityClientId: apiUserAssignedIdentity.outputs.identityClientId
     appSettings: {
+      MSSQL: 'Server=${azureSqlServer},1433;Initial Catalog=${azureSqlDatabase};Authentication=Active Directory Managed Identity;User Id=${apiUserAssignedIdentity.outputs.identityClientId};Connection Timeout=30;'
     }
     virtualNetworkSubnetId: skipVnet ? '' : serviceVirtualNetwork.outputs.appSubnetID
   }
@@ -170,3 +173,4 @@ output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output SERVICE_API_NAME string = api.outputs.SERVICE_API_NAME
 output AZURE_FUNCTION_NAME string = api.outputs.SERVICE_API_NAME
+output AZURE_USER_ASSIGNED_IDENTITY_NAME string = apiUserAssignedIdentity.outputs.identityName
