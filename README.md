@@ -1,4 +1,4 @@
-# VS Live 2024 Orlando
+# Live360 2024 Orlando Demos
 
 Samples and demos used in the Live360 2024 Orlando conference for the following sessions:
 

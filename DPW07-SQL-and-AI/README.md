@@ -16,6 +16,25 @@ A practical sample of RAG pattern applied to a real-world use case: make finding
 
 https://github.com/yorek/azure-sql-db-ai-samples-search
 
+The script used to add the present sample to the samples available to the AI Search demo is the following:
+
+```sql
+exec dbo.add_sample '
+{
+    "name": "Live360 2024 Orlando Demos", 
+    "description": "Demos used at the Live360 2024 Orlando conference",
+    "notes": "",
+    "url": "https://github.com/yorek/live360-2024-orlando",
+    "details": {
+        "authors": ["Davide Mauri"],
+        "languages": ["T-SQL", ".NET", "C#"],                
+        "services": ["Azure SQL"],
+        "conferences": ["Live360 2024 Orlando"]
+    }
+}
+';
+```
+
 ## RAG + NL2SQL sample
 
 Using Azure SQL and Semantic Kernel to chat with your own data using a mix of NL2SQL and RAG
