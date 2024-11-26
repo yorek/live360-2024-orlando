@@ -20,7 +20,18 @@ class Program
             var searchTerm = Console.ReadLine();
 
             using var conn = new SqlConnection(Env.GetString("MSSQL"));
-            var result = conn.Query("SELECT [object_id], [name], [type_desc] FROM sys.objects WHERE [name] LIKE '%" + searchTerm + "%' ORDER BY [name]"); // SQL Injection 
+            var result = conn.Query($"""
+                SELECT 
+                    [object_id], [name], [type_desc] 
+                FROM 
+                    sys.objects 
+                WHERE 
+                    [name] LIKE '%{searchTerm}%' 
+                AND
+                    [type_desc] = 'USER_TABLE'
+                ORDER BY 
+                    [name]
+            """); // SQL Injection 
             foreach (var row in result)
             {
                 Console.WriteLine($"{row.object_id} => {row.name} ({row.type_desc})");
