@@ -8,6 +8,13 @@ exec get_embedding 'cat', @cat output;
 exec get_embedding 'wolf', @wolf output;
 
 select
-    vector_distance('cosine', @dog, @cat) as dog_vs_cat,
-    vector_distance('cosine', @dog, @wolf) as dog_vs_wolf,
-    vector_distance('cosine', @cat, @wolf) as cat_vs_wolf;
+    *
+from    
+    ( values
+        ('dog', 'cat', vector_distance('cosine', @dog, @cat)),
+        ('dog', 'wolf', vector_distance('cosine', @dog, @wolf)),
+        ('cat', 'wolf', vector_distance('cosine', @cat, @wolf))    
+    ) as t (animal1, animal2, distance)
+order by
+    distance
+
