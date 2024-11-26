@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "MSSQL": "Server=<your-server>.database.windows.net,1433;Initial Catalog=<your-databases>;Authentication=Active Directory Default;Connection Timeout=30;"
+  },
+  "ConnectionStrings": {}
+}
