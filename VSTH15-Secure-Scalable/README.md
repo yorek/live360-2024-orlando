@@ -2,6 +2,8 @@
 
 ## SQL Injection 
 
+Folder: `./sql-injection`
+
 The application shows a sample of a SQL Injection attack. The application is a simple API that connects to an Azure SQL Database and returns the result of a query. The query is built using the input from the user, and so it is vulnerable to SQL Injection attacks.
 
 Once the application is running, you can test the SQL Injection by searching for something like 
@@ -16,7 +18,9 @@ Microsoft Defender for SQL can help you to protect your database from SQL Inject
 
 ## Passwordless Authentication Sample
 
-This deploys a passwordless authentication solution using Azure Functions, Azure SQL Database, Azure Entra ID, and Azure Managed Identity.
+Folder: `./passwordless-auth`
+
+This deploys a passwordless authentication solution using Azure Functions, Azure SQL Database, Azure Entra ID, and Azure Managed Identity. You can also take a look at this sample [https://github.com/Azure-Samples/azure-sql-db-who-am-i] to get even more details on how to use Azure Managed Identity with Azure SQL Database.
 
 ### Prepare Azure SQL database
 
